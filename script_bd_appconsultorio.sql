@@ -1,17 +1,5 @@
 CREATE database appconsultorio;
 USE appconsultorio;
-CREATE TABLE usuario (
-  idusuario INT(11) NOT NULL,
-  correo VARCHAR(45) NOT NULL,
-  nombre VARCHAR(45) NOT NULL,
-  apellido VARCHAR(45) NOT NULL,
-  usuario VARCHAR(45) NOT NULL,
-  contraseña VARCHAR(45) NOT NULL,
-  estatus VARCHAR(45) NOT NULL,
-  fecha_registro DATE NOT NULL,
-  PRIMARY KEY (idusuario)
-  );
-
 
 CREATE TABLE turno (
   idturno INT(11) NOT NULL,
@@ -35,15 +23,11 @@ CREATE TABLE medico (
   direccion VARCHAR(45) NOT NULL,
   telefono VARCHAR(45) NOT NULL,
   correo VARCHAR(45) NOT NULL,
-  usuario_idusuario INT(11) NOT NULL,
+  contraseña VARCHAR(45) NULL DEFAULT NULL,
   turno_idturno INT(11) NOT NULL,
   especialidades_idespecialidades INT(11) NOT NULL,
-  PRIMARY KEY (idmedico, usuario_idusuario, turno_idturno, especialidades_idespecialidades),
- 
-  CONSTRAINT fk_medico_usuario1
-  FOREIGN KEY (usuario_idusuario)
-  REFERENCES usuario (idusuario),
-    
+  PRIMARY KEY (idmedico,turno_idturno, especialidades_idespecialidades),
+   
   CONSTRAINT fk_medico_turno1
   FOREIGN KEY (turno_idturno)
   REFERENCES turno (idturno),
@@ -61,13 +45,9 @@ CREATE TABLE paciente (
   direccion VARCHAR(95) NOT NULL,
   telefono VARCHAR(45) NULL DEFAULT NULL,
   correo VARCHAR(45) NULL DEFAULT NULL,
-  usuario_idusuario INT(11) NOT NULL,
-  PRIMARY KEY (idpaciente, usuario_idusuario),
- 
-  CONSTRAINT fk_paciente_usuario1
-  FOREIGN KEY (usuario_idusuario)
-  REFERENCES usuario (idusuario)
-  );
+  contraseña VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (idpaciente)
+ );
 
 
 CREATE TABLE cita (
