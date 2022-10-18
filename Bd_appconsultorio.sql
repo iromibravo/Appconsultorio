@@ -9,10 +9,10 @@ CREATE TABLE turno (
   PRIMARY KEY (idturno)
   );
 
-CREATE TABLE especialidades (
-  idespecialidades INT(11) NOT NULL,
+CREATE TABLE especialidad (
+  idespecialidad INT(11) NOT NULL,
   nombre VARCHAR(45) NOT NULL,
-  PRIMARY KEY (idespecialidades)
+  PRIMARY KEY (idespecialidad)
   );
 
 CREATE TABLE medico (
@@ -25,16 +25,16 @@ CREATE TABLE medico (
   correo VARCHAR(45) NOT NULL,
   contraseña VARCHAR(45) NULL DEFAULT NULL,
   turno_idturno INT(11) NOT NULL,
-  especialidades_idespecialidades INT(11) NOT NULL,
-  PRIMARY KEY (idmedico,turno_idturno, especialidades_idespecialidades),
+  especialidad_idespecialidad INT(11) NOT NULL,
+  PRIMARY KEY (idmedico,turno_idturno, especialidad_idespecialidad),
    
   CONSTRAINT fk_medico_turno1
   FOREIGN KEY (turno_idturno)
   REFERENCES turno (idturno),
    
-  CONSTRAINT fk_medico_especialidades1
-  FOREIGN KEY (especialidades_idespecialidades)
-  REFERENCES especialidades (idespecialidades)
+  CONSTRAINT fk_medico_especialidad1
+  FOREIGN KEY (especialidad_idespecialidad)
+  REFERENCES especialidad (idespecialidad)
   );
 
 CREATE TABLE paciente (
@@ -82,25 +82,26 @@ CREATE TABLE consulta (
   REFERENCES cita (idcita)
   );
 
-CREATE TABLE medicamentos (
-  idmedicamentos INT(11) NOT NULL,
+CREATE TABLE medicamento (
+  idmedicamento INT(11) NOT NULL,
   nombre_comercial VARCHAR(45) NOT NULL,
   nombre_generico VARCHAR(45) NULL,
   fecha_vencimiento DATE NOT NULL,
-  PRIMARY KEY (idmedicamentos)
+  PRIMARY KEY (idmedicamento)
   );
 
-CREATE TABLE medicamentos_consulta (
-  medicamentos_idmedicamentos INT(11) NOT NULL,
-  consulta_idconsulta VARCHAR(45) NOT NULL,
-  PRIMARY KEY (medicamentos_idmedicamentos, consulta_idconsulta),
+CREATE TABLE consulta_medicamento (
+consulta_idconsulta VARCHAR(45) NOT NULL,  
+medicamento_idmedicamento INT(11) NOT NULL,
   
-  CONSTRAINT fk_medicamentos_consulta_medicamentos1
-  FOREIGN KEY (medicamentos_idmedicamentos)
-  REFERENCES medicamentos (idmedicamentos),
+  PRIMARY KEY (consulta_idconsulta, medicamento_idmedicamento),
   
-  CONSTRAINT fk_medicamentos_consulta_consulta1
+ CONSTRAINT fk_consulta_medicamento_consulta1
   FOREIGN KEY (consulta_idconsulta)
-  REFERENCES consulta (idconsulta)
-  );
-
+  REFERENCES consulta (idconsulta),
+  
+CONSTRAINT fk_consulta_medicamento_medicamento1
+  FOREIGN KEY (medicamento_idmedicamento)
+  REFERENCES medicamento (idmedicamento)
+  
+ );
